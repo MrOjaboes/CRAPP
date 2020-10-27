@@ -1,0 +1,501 @@
+/* global $, lunr */
+(function() {
+    "use strict";
+
+    const searchTerm = getSearchTerm();
+    const productTerm = getProductTerm();
+    const solrURL = "https://searchdocs.cpanel.net:443/solr/docs-hugo/query";
+    const confURL = "https://documentation.cpanel.net/rest/api/search";
+
+    let solrSearchParams = {};
+    let confSearchParams = {};
+
+    confSearchParams = {
+        "cql": `text~"${searchTerm}" AND space.key="DD" AND type="page"`,
+        "limit": 20,
+        "start": 0
+    };
+
+    /**
+     * q: query - what is being searched for
+     * defType: the query parser used
+     * df: default field - what field to search against if field(s) not provided
+     * qf: query fields - what fields to search against
+     * fq: filter query - how to filter data superset (this one searches against all articles that have either no version, or are the most recent version)
+     * optional fq - filter by product type
+     * rows: how many items to return at a time
+     * start: what item to begin on
+     */
+    if(productTerm === "all" ) {
+        solrSearchParams = {
+            "params": {
+                "q": searchTerm,
+                "defType": "dismax",
+                "df": "title",
+                "qf": "title OR contents OR tags or description",
+                "fq": "isversioned:false OR (isversioned:true AND islatestversion:true)",
+                "rows": 20,
+                "start": 0
+            }
+        };
+    } else {
+        solrSearchParams = {
+            "params": {
+                "q": searchTerm,
+                "defType": "dismax",
+                "df": "title",
+                "qf": "title OR contents OR tags or description",
+                "fq": `(isversioned:false OR (isversioned:true AND islatestversion:true)) AND product: ${productTerm}`,
+                "rows": 20,
+                "start": 0
+            }
+        };
+    };
+
+    let solrPagination = {
+        "start": 0,
+        "current_page": 1,
+        "num_items": 0,
+    };
+
+    let confPagination = {
+        "start": 0,
+        "current_page": 1,
+        "num_items": 0,
+    };
+
+    if(!searchTerm) {
+        return;
+    } else {
+        if(productTerm === "all") {
+            sendSolrSearchRequest(solrURL, solrSearchParams, solrPagination, false);
+            sendConfSearchRequest(confURL, confSearchParams, confPagination, false);
+        } else if(productTerm !== "api") {
+            sendSolrSearchRequest(solrURL, solrSearchParams, solrPagination, true);
+        } else {
+            sendConfSearchRequest(confURL, confSearchParams, confPagination, true);
+        };
+    };
+
+    function sendSolrSearchRequest(url, solrSearchParams, solrPagination, isProductSearchOnly) {
+        solrSearchParams = JSON.stringify(solrSearchParams);
+        const user = "hugo-devel";
+        const password = "WVbxHHyEDRW4DvTRYKdQcrMu";
+        const creds = btoa(user + ":" + password);
+        let solrResponse;
+        let req = new XMLHttpRequest();
+        req.withCredentials = true;
+
+        req.onreadystatechange = function() {
+            if(req.readyState === 4 && req.status === 200) {
+                const rawSolrData = JSON.parse(req.response);
+                solrResponse = rawSolrData.response;
+                solrPagination.start = rawSolrData.response.start;
+                solrPagination.num_items = rawSolrData.response.numFound;
+                solrPagination.num_pages = Math.ceil(solrPagination.num_items / 20);
+
+                if(solrPagination.num_items > 20) {
+                    setSolrPaginationNav(solrPagination);
+                };
+                setSolrSearchResults(solrResponse, isProductSearchOnly);
+            } else if(req.readyState === 4 && req.status === 0) {
+                setSolrAuthenticationError();
+            };
+        };
+
+        req.open("POST", url, true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader('Authorization', `Basic ${creds}`);
+        req.send(solrSearchParams);
+    };
+
+    function sendConfSearchRequest(confURL, confSearchParams, confPagination, isOnlyAPISearch) {
+        $.getJSON(confURL, confSearchParams, function(data) {
+            const confBaseURL = data._links.base;
+            const confResponse = data.results;
+            confPagination.start = data.start;
+            confPagination.num_items = data.totalSize;
+            confPagination.num_pages = Math.ceil(confPagination.num_items / 20);
+
+            if(confPagination.num_items > 20) {
+                setConfPaginationNav(confPagination);
+            };
+            setConfSearchResults(confResponse, confBaseURL, isOnlyAPISearch);
+        });
+    };
+
+    function createSearchBanner(searchTerm) {
+        let searchBanner = document.querySelector("#search-banner");
+        searchBanner.textContent = `Search results for: ${searchTerm}`;
+        searchBanner.insertAdjacentHTML('afterend', '<hr />');
+    };
+
+    function getSearchTerm() {
+        let searchTerm = decodeURIComponent((location.search.split("&")[1] || ""));
+        searchTerm = searchTerm.split("=")[1] || "";
+        searchTerm = searchTerm.split("+");
+        searchTerm = searchTerm.join(" ");
+
+        return searchTerm;
+    };
+
+    function getProductTerm() {
+        return decodeURIComponent((location.search.split("&")[0] || "").split("=")[1]);
+    };
+
+    function setSolrAuthenticationError() {
+        let searchResultsDisplay = document.querySelector("#products-search-content");
+
+        if(location.hostname === "localhost") {
+            searchResultsDisplay.innerHTML = `<hr /><h3>CORS Error [internal_error_only]</h3>`;
+        } else {
+            searchResultsDisplay.innerHTML = `<hr />
+                                            <h3>
+                                            Server authentication error. Please create a
+                                                <a href="https://tickets.cpanel.net/review/login.cgi" target="_blank" rel="noreferrer noopener">
+                                                    support ticket
+                                                </a>
+                                            if you see this error.</h3>`;
+        };
+        renderContent();
+    };
+
+    function setSolrSearchResults(solrResponse, isProductSearchOnly) {
+        let searchResultsDisplay = document.querySelector("#products-search-content"),
+            resultEl,
+            paginationContainer;
+        const solrSearchResults = solrResponse.docs;
+
+        // reset search results display
+        searchResultsDisplay.innerHTML = "";
+
+        if (solrSearchResults.length) {
+            solrSearchResults.forEach((result) => {
+                resultEl = document.createElement("div");
+                resultEl.className = "search-result-item";
+                resultEl.innerHTML = `
+                    <hr />
+                    <article class="post mt-3">
+                        <h4><a href=${result.permalink}>${result.title}</a></h4>
+                        <p>${result.description}</p>
+                        <div class="post-content">
+                            <a href=${result.permalink} id="read-more-button-${result.id}">Read more</a>
+                        </div>
+                    </article>`
+                searchResultsDisplay.appendChild(resultEl);
+            });
+
+            const line = document.createElement("hr");
+            searchResultsDisplay.appendChild(line);
+        } else {
+            searchResultsDisplay.innerHTML = `<h3>Your search did not return any results.</h3>
+                                            <ul>
+                                                <li>Make sure that you correctly spelled all the search terms.</li>
+                                                <li>Try using more generalized search terms.</li>
+                                            </ul>`;
+        };
+
+        if(isProductSearchOnly) {
+            selectProductTab();
+        };
+        renderContent();
+    };
+
+    function setConfSearchResults(confResponse, confBaseURL, isOnlyAPISearch) {
+        let searchResultsDisplay = document.querySelector("#api-search-content"),
+            resultEl,
+            paginationContainer,
+            description;
+
+        const descriptionRegEx1 = /Description\n+(.+)/;
+        const descriptionRegEx2 = /Introduction\n+(.+)/;
+        const descriptionRegEx3 = /@{3}hl\@{3}(\w+)@{3}endhl\@{3}/g;
+
+        searchResultsDisplay.innerHTML = "";
+
+        confResponse.forEach((resp) => {
+            resultEl = document.createElement("div");
+            resultEl.className = "search-result-item";
+            description = resp.excerpt;
+            if(!description) {
+                description = "NO DESCRIPTION";
+            } else {
+                description = description.match(descriptionRegEx1);
+                if(!description) {
+                    description = resp.excerpt.match(descriptionRegEx2);
+                }
+                if(!description) {
+                    description = "NO DESCRIPTION";
+                } else {
+                    description = description[1];
+                    description = description.replace(descriptionRegEx3, "$1");
+                }
+            }
+
+            resultEl.innerHTML = `
+                <hr />
+                <article class="post mt-3">
+                    <h4><a href=${confBaseURL}${resp.url} id="title-button-${resp.content.id}">${resp.content.title}</a></h4>
+                    <p>${description}</p>
+                    <div class="post-content">
+                        <a href=${confBaseURL}${resp.url} id="read-more-button-${resp.content.id}">Read more</a>
+                    </div>
+                </article>`
+            searchResultsDisplay.appendChild(resultEl);
+        });
+
+        const line = document.createElement("hr");
+        searchResultsDisplay.appendChild(line);
+
+        if(isOnlyAPISearch) {
+            selectAPITab();
+            renderContent();
+        };
+    };
+
+    function setSolrPaginationNav(solrPagination) {
+        let paginationContainer = document.querySelector("#products-search-pagination");
+        let pagination_item,
+            pagination_btn,
+            page_directional_elements,
+            pagination_list_container,
+            pagination_reference_node,
+            pagination_text,
+            num_of_pages = solrPagination.num_pages,
+            page_num = 1;
+
+        // create directional pagination buttons
+        paginationContainer.innerHTML = "";
+        paginationContainer.innerHTML = `
+            <ul id="product_search_pagination_list" class="pagination">
+                <li id="product_api_pagination_first" class="page-item">
+                    <button type="button" class="page-link product_page_directional" aria-label="first" name="first">&laquo;&laquo;</button>
+                </li>
+                <li id="product_pagination_previous" class="page-item">
+                    <button type="button" class="page-link product_page_directional" aria-label="previous" name="previous">&laquo;</button>
+                </li>
+                <li id="product_pagination_next" class="page-item">
+                    <button type="button" class="page-link product_page_directional" aria-label="next" name="next">&raquo;</button>
+                </li>
+                <li id="product_pagination_last" class="page-item">
+                    <button type="button" class="page-link product_page_directional" aria-label="last" name="last">&raquo;&raquo;</button>
+                </li>
+            </ul>
+        `;
+
+        // disable 'previous' or 'next' buttons if the first or last page is selected
+        if(solrPagination.current_page === 1) {
+            let prev = document.querySelector("#product_pagination_previous");
+            let first = document.querySelector("#product_api_pagination_first");
+            prev.className = "page-item disabled";
+            first.className = "page-item disabled";
+        } else if(solrPagination.current_page === solrPagination.num_pages) {
+            let next = document.querySelector("#product_pagination_next");
+            let last = document.querySelector("#product_pagination_last");
+            next.className = "page-item disabled";
+            last.className = "page-item disabled";
+        }
+
+        page_directional_elements = document.querySelectorAll(".product_page_directional");
+        page_directional_elements.forEach(function(el) {
+            el.addEventListener("click", function(evt) {
+                handleSolrPagination(evt, solrPagination);
+            });
+        });
+
+        // create pagination number buttons
+        pagination_list_container = document.querySelector("#product_search_pagination_list");
+        pagination_reference_node = document.querySelector("#product_pagination_next");
+        while(num_of_pages > 0) {
+            pagination_item = document.createElement("li");
+            pagination_btn = document.createElement("button");
+
+            // format <button>
+            pagination_btn.type = "button";
+            pagination_btn.name = page_num;
+            pagination_btn.value = page_num;
+            pagination_btn.innerHTML = page_num;
+            pagination_btn.className = "page-link";
+
+            pagination_btn.addEventListener("click", function(evt) {
+                handleSolrPagination(evt, solrPagination);
+            });
+
+            // format <li>
+            if(page_num === solrPagination.current_page) {
+                pagination_item.className = "page-item active";
+            } else {
+                pagination_item.className = "page-item";
+            };
+
+            // append <button> to <li>
+            pagination_item.appendChild(pagination_btn);
+
+            // append <li> between '<' and '>' buttons
+            pagination_list_container.insertBefore(pagination_item, pagination_reference_node);
+
+            page_num++;
+            num_of_pages--;
+        };
+    };
+
+    function setConfPaginationNav(confPagination) {
+        let paginationContainer = document.querySelector("#api-search-pagination");
+        let pagination_item,
+            pagination_btn,
+            page_directional_elements,
+            pagination_list_container,
+            pagination_reference_node,
+            pagination_text,
+            num_of_pages = confPagination.num_pages,
+            page_num = 1;
+
+        // create directional pagination buttons
+        paginationContainer.innerHTML = "";
+        paginationContainer.innerHTML = `
+            <ul id="api_search_pagination_list" class="pagination">
+                <li id="api_pagination_first" class="page-item">
+                    <button type="button" class="page-link api_page_directional" aria-label="first" name="first">&laquo;&laquo;</button>
+                </li>
+                <li id="api_pagination_previous" class="page-item">
+                    <button type="button" class="page-link api_page_directional" aria-label="previous" name="previous">&laquo;</button>
+                </li>
+                <li id="api_pagination_next" class="page-item">
+                    <button type="button" class="page-link api_page_directional" aria-label="next" name="next">&raquo;</button>
+                </li>
+                <li id="api_pagination_last" class="page-item">
+                    <button type="button" class="page-link api_page_directional" aria-label="last" name="last">&raquo;&raquo;</button>
+                </li>
+            </ul>
+        `;
+
+        //disable 'previous' or 'next' buttons if the first or last page is selected
+        if(confPagination.current_page === 1) {
+            let prev = document.querySelector("#api_pagination_previous");
+            let first = document.querySelector("#api_pagination_first");
+            prev.className = "page-item disabled";
+            first.className = "page-item disabled";
+        } else if(confPagination.current_page === confPagination.num_pages) {
+            let next = document.querySelector("#api_pagination_next");
+            let last = document.querySelector("#api_pagination_last");
+            next.className = "page-item disabled";
+            last.className = "page-item disabled";
+        };
+
+        page_directional_elements = document.querySelectorAll(".api_page_directional");
+        page_directional_elements.forEach(function(el) {
+            el.addEventListener("click", function(evt) {
+                handleConfPagination(evt, confPagination);
+            });
+        });
+
+        // create pagination number buttons
+        pagination_list_container = document.querySelector("#api_search_pagination_list");
+        pagination_reference_node = document.querySelector("#api_pagination_next");
+        while(num_of_pages > 0) {
+            pagination_item = document.createElement("li");
+            pagination_btn = document.createElement("button");
+
+            // format <button>
+            pagination_btn.type = "button";
+            pagination_btn.name = page_num;
+            pagination_btn.value = page_num;
+            pagination_btn.innerHTML = page_num;
+            pagination_btn.className = "page-link"
+
+
+            pagination_btn.addEventListener("click", function(evt) {
+                handleConfPagination(evt, confPagination);
+            });
+
+            // format <li>
+            if(page_num === confPagination.current_page) {
+                pagination_item.className = "page-item active";
+            } else {
+                pagination_item.className = "page-item";
+            };
+
+            // append <button> to <li>
+            pagination_item.appendChild(pagination_btn);
+
+            // append <li> between '<' and '>' buttons
+            pagination_list_container.insertBefore(pagination_item, pagination_reference_node);
+
+            page_num++;
+            num_of_pages--;
+        };
+    };
+
+    function handleSolrPagination(evt, solrPagination) {
+        let start_num;
+        const page = evt.srcElement.name;
+
+        switch (page) {
+            case "first":
+                solrPagination.current_page = 1
+                break;
+            case "previous":
+                solrPagination.current_page = solrPagination.current_page - 1;
+                break;
+            case "next":
+                solrPagination.current_page = solrPagination.current_page + 1;
+                break;
+            case "last":
+                solrPagination.current_page = solrPagination.num_pages;
+                break;
+            default:
+                solrPagination.current_page = parseInt(page, 10);
+
+        };
+        solrPagination.start = (solrPagination.current_page - 1) * 20;
+
+        solrSearchParams.params.start = solrPagination.start;
+
+        sendSolrSearchRequest(solrURL, solrSearchParams, solrPagination);
+    };
+
+    function handleConfPagination(evt, confPagination) {
+        let start_num;
+        const page = evt.srcElement.name;
+
+        switch (page) {
+            case "first":
+                confPagination.current_page = 1
+                break;
+            case "previous":
+                confPagination.current_page = confPagination.current_page - 1;
+                break;
+            case "next":
+                confPagination.current_page = confPagination.current_page + 1;
+                break;
+            case "last":
+                confPagination.current_page = confPagination.num_pages;
+                break;
+            default:
+                confPagination.current_page = parseInt(page, 10);
+
+        };
+        confPagination.start = (confPagination.current_page - 1) * 20;
+
+        confSearchParams.start = confPagination.start;
+        sendConfSearchRequest(confURL, confSearchParams, confPagination);
+    };
+
+    function selectAPITab() {
+        document.querySelector("#search-products-pill").className = "nav-link disabled";
+        $("#search-api-pill").tab("show");
+    };
+
+    function selectProductTab() {
+        document.querySelector("#search-api-pill").className = "nav-link disabled";
+        $("#search-products-pill").tab("show");
+    };
+
+    function renderContent() {
+        createSearchBanner(searchTerm);
+        document.querySelector("#search-banner").className = "mt-2";
+        document.querySelector("#searching-text").className = "d-none";
+        document.querySelector("#search-nav-pills").className = "nav nav-pills";
+        document.querySelector("#search-results").className = "tab-content";
+    };
+})();

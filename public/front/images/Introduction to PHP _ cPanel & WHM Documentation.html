@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)https://docs.cpanel.net/ea4/php/introduction-to-php/#php-versions -->
+<html prefix="og: http://ogp.me/ns#" lang="en"><head itemscope="" itemtype="https://docs.cpanel.net/"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-27582338-28', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async="" src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/analytics.js.download"></script>
+
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title itemprop="name">Introduction to PHP | cPanel &amp; WHM Documentation</title>
+<meta property="og:title" content="Introduction to PHP | cPanel &amp; WHM Documentation">
+<meta name="twitter:title" content="Introduction to PHP | cPanel &amp; WHM Documentation">
+<meta itemprop="name" content="Introduction to PHP | cPanel &amp; WHM Documentation">
+<meta name="application-name" content="Introduction to PHP | cPanel &amp; WHM Documentation">
+<meta property="og:site_name" content="cPanel &amp; WHM Documentation">
+
+<meta name="description" content="EasyApache allows you to easily install and modify PHP for your server.">
+<meta itemprop="description" content="EasyApache allows you to easily install and modify PHP for your server.">
+<meta property="og:description" content="EasyApache allows you to easily install and modify PHP for your server.">
+<meta name="twitter:description" content="EasyApache allows you to easily install and modify PHP for your server.">
+
+<!--<base href="https://docs.cpanel.net/ea4/php/introduction-to-php/">--><base href=".">
+<link rel="canonical" href="https://docs.cpanel.net/ea4/php/introduction-to-php/" itemprop="url"> 
+<meta name="url" content="https://docs.cpanel.net/ea4/php/introduction-to-php/">
+<meta name="twitter:url" content="https://docs.cpanel.net/ea4/php/introduction-to-php/"> 
+<meta property="og:url" content="https://docs.cpanel.net/ea4/php/introduction-to-php/">
+
+<meta property="og:locale" content="en">
+<meta name="language" content="English">
+<link rel="alternate" hreflang="en" href="https://docs.cpanel.net/ea4/php/introduction-to-php/" title="English">
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://docs.cpanel.net/sitemap.xml"> 
+
+
+
+
+ 
+
+  
+  
+  
+
+  <meta property="og:type" content="article">
+  
+   
+    <meta name="news_keywords" content="[ea4 whmadvanced php]">
+    <meta property="article:section" content="[ea4 whmadvanced php]"> 
+  
+
+  <script defer="" type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Article",
+      "headline": "Introduction to PHP",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "datePublished": "0001-01-01",
+      "description": "EasyApache allows you to easily install and modify PHP for your server.",
+      "wordCount":  1138 ,
+      "mainEntityOfPage": "True",
+      "dateModified": "2020-09-09",
+      "image": {
+        "@type": "imageObject",
+        "url": ""
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "cPanel \x26 WHM Documentation",
+        "logo": {
+          "@type": "imageObject",
+          "url": "https://www.example.com/images/brand/favicon.png"
+        }
+      }
+    }
+  </script>
+
+    <link rel="icon" href="https://docs.cpanel.net/img/favicon.png">
+    
+    <link href="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/css" rel="stylesheet">
+    
+    <link href="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/fontawesome_all.min.css" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" href="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/bootstrap.min.css">
+    
+    
+    
+    <link rel="stylesheet" href="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/prism_dark.min.css">
+    
+    
+    
+    <link rel="stylesheet" href="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/main.min.css">
+    
+    
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/jquery-3.4.1.min.js.download"></script>
+    
+    
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/popper-1.16.0.min.js.download"></script>
+    
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/bootstrap.bundle.min.js.download"></script>
+    
+    
+    
+    
+
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/search.js.download"></script>
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/prism.min.js.download"></script>
+<style>._3emE9--dark-theme .-S-tR--ff-downloader{background:rgba(30,30,30,.93);border:1px solid rgba(82,82,82,.54);box-shadow:0 4px 7px rgba(30,30,30,.55);color:#fff}._3emE9--dark-theme .-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn{background:#3d4b52}._3emE9--dark-theme .-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn:hover{background:#131415}._3emE9--dark-theme .-S-tR--ff-downloader ._10vpG--footer{background:rgba(30,30,30,.93)}._2mDEx--white-theme .-S-tR--ff-downloader{background:#fff;border:1px solid rgba(82,82,82,.54);box-shadow:0 4px 7px rgba(30,30,30,.55);color:#314c75}._2mDEx--white-theme .-S-tR--ff-downloader ._6_Mtt--header{font-weight:700}._2mDEx--white-theme .-S-tR--ff-downloader ._2dFLA--container ._2bWNS--notice{border:0;color:rgba(0,0,0,.88)}._2mDEx--white-theme .-S-tR--ff-downloader ._10vpG--footer{background:#fff}.-S-tR--ff-downloader{display:block;overflow:hidden;position:fixed;bottom:20px;right:7.1%;width:330px;height:180px;background:rgba(30,30,30,.93);border-radius:2px;color:#fff;z-index:99999999;border:1px solid rgba(82,82,82,.54);box-shadow:0 4px 7px rgba(30,30,30,.55);transition:.5s}.-S-tR--ff-downloader._3M7UQ--minimize{height:62px}.-S-tR--ff-downloader._3M7UQ--minimize .nxuu4--file-info,.-S-tR--ff-downloader._3M7UQ--minimize ._6_Mtt--header{display:none}.-S-tR--ff-downloader ._6_Mtt--header{padding:10px;font-size:17px;font-family:sans-serif}.-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn{float:right;background:#f1ecec;height:20px;width:20px;text-align:center;padding:2px;margin-top:-10px;cursor:pointer}.-S-tR--ff-downloader ._6_Mtt--header ._2VdJW--minimize-btn:hover{background:#e2dede}.-S-tR--ff-downloader ._13XQ2--error{color:red;padding:10px;font-size:12px;line-height:19px}.-S-tR--ff-downloader ._2dFLA--container{position:relative;height:100%}.-S-tR--ff-downloader ._2dFLA--container .nxuu4--file-info{padding:6px 15px 0;font-family:sans-serif}.-S-tR--ff-downloader ._2dFLA--container .nxuu4--file-info div{margin-bottom:5px;width:100%;overflow:hidden}.-S-tR--ff-downloader ._2dFLA--container ._2bWNS--notice{margin-top:21px;font-size:11px}.-S-tR--ff-downloader ._10vpG--footer{width:100%;bottom:0;position:absolute;font-weight:700}.-S-tR--ff-downloader ._10vpG--footer ._2V73d--loader{-webkit-animation:n0BD1--rotation 3.5s linear forwards;animation:n0BD1--rotation 3.5s linear forwards;position:absolute;top:-120px;left:calc(50% - 35px);border-radius:50%;border:5px solid #fff;border-top-color:#a29bfe;height:70px;width:70px;display:flex;justify-content:center;align-items:center}.-S-tR--ff-downloader ._10vpG--footer ._24wjw--loading-bar{width:100%;height:18px;background:#dfe6e9;border-radius:5px}.-S-tR--ff-downloader ._10vpG--footer ._24wjw--loading-bar ._1FVu9--progress-bar{height:100%;background:#8bc34a;border-radius:5px}.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status{margin-top:10px}.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status ._1XilH--state{float:left;font-size:.9em;letter-spacing:1pt;text-transform:uppercase;width:100px;height:20px;position:relative}.-S-tR--ff-downloader ._10vpG--footer ._2KztS--status ._1jiaj--percentage{float:right}</style></head><body><nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="https://docs.cpanel.net/">
+            
+            
+            <img src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/docs-logo.min.svg" alt="cPanel logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                
+                
+                    <li class=" nav-item">
+                        <a class="nav-link" href="https://docs.cpanel.net/release-notes/">Release Notes</a>
+                    </li>
+                
+                    <li class=" nav-item">
+                        <a class="nav-link" href="https://docs.cpanel.net/changelogs/">Change Logs</a>
+                    </li>
+                
+                    <li class=" nav-item">
+                        <a class="nav-link" href="https://forums.cpanel.net/">Forums</a>
+                    </li>
+                
+                    <li class=" nav-item">
+                        <a class="nav-link" href="https://tickets.cpanel.net/review/login.cgi">Support Ticket</a>
+                    </li>
+                
+                <li class="nav-item">
+                    <a class="btn btn-secondary" href="https://cpanel.net/products/trial/" target="_blank" rel="noopener">Try Demo</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav><div id="content">
+    <div class="article-container container-fluid"><form id="search-form" name="search-form">
+    <select class="custom-select d-md-none mt-4 mb-3">
+        <option value="all" selected="">All</option>
+        <option value="cpanel">cPanel</option>
+        <option value="whm">WHM</option>
+        <option value="ea4">EA4</option>
+        <option value="knowledge-base">Knowledge Base</option>
+        <option value="manage2">Manage2</option>
+        <option value="webmail">Webmail</option>
+        <option value="api">API</option>
+    </select>
+    <div class="input-group">
+        <div class="input-group-append d-none d-md-inline">
+            <select name="product" class="custom-select">
+                <option value="all" selected="">All</option>
+                <option value="cpanel">cPanel</option>
+                <option value="whm">WHM</option>
+                <option value="ea4">EA4</option>
+                <option value="knowledge-base">Knowledge Base</option>
+                <option value="manage2">Manage2</option>
+                <option value="webmail">Webmail</option>
+                <option value="api">API</option>
+            </select>
+        </div>
+        <input id="search-query" name="q" type="text" class="form-control" placeholder="Enter search terms" aria-label="Default" aria-describedby="inputGroup-sizing-default" required="">
+        <div class="input-group-append" id="search-btn-container">
+            <input type="submit" formaction="https://docs.cpanel.net//search" value="Search" class="input-group-text" id="submit-search-btn">
+        </div>
+    </div>
+</form><ol class="d-none d-md-flex breadcrumb">
+    
+    
+        
+    
+        
+    
+        
+    
+
+    
+        <li class="breadcrumb-item">
+            <a href="https://docs.cpanel.net/">cPanel &amp; WHM Documentation</a>
+        </li>
+    
+
+
+    
+
+    
+        <li class="breadcrumb-item">
+            <a href="https://docs.cpanel.net/ea4/">EasyApache4</a>
+        </li>
+    
+
+
+    
+
+    
+        <li class="breadcrumb-item">
+            <a href="https://docs.cpanel.net/ea4/php/">PHP</a>
+        </li>
+    
+
+
+    
+
+    
+        <li class="breadcrumb-item active" aria-current="page">
+            Introduction to PHP
+        </li>
+    
+
+
+</ol>
+
+
+ 
+<div class="tags">
+    
+        
+        
+            <a href="https://docs.cpanel.net/tags/ea4/" class="badge badge-primary">ea4</a>
+        
+    
+        
+        
+            <a href="https://docs.cpanel.net/tags/whmadvanced/" class="badge badge-primary">whmadvanced</a>
+        
+    
+        
+        
+            <a href="https://docs.cpanel.net/tags/php/" class="badge badge-primary">php</a>
+        
+    
+</div><div class="row">
+            <div class="d-none d-md-block col-md-3">
+                <aside class="side-nav sticky">
+                    <h4 class="mt-1">Table of Contents</h4>
+
+
+
+
+
+<div class="table-of-contents-wrapper">
+    <ul class="toc-list">
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#overview">
+                        <li>Overview</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#how-apache-handles-php">
+                        <li>How Apache handles PHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#php-versions">
+                        <li>PHP versions</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#multiphp">
+                        <li>MultiPHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#vendor-provided-php-versions">
+                        <li>Vendor-provided PHP versions</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#modify-php">
+                        <li>Modify PHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#adjust-configuration-files">
+                        <li>Adjust configuration files</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#php-security">
+                        <li>PHP Security</li>
+                    </a>
+                    <hr>
+                
+            
+        
+        
+    </ul>
+</div>
+<div id="wasThisHelpful" class="was-this-helpful-block alert alert-info fade show" style="display: block;">
+    <div id="wasHelpfulSection" class="collapse show wth-section">
+        <p class="wthb-description">Did you find this document helpful?</p>
+        <div class="wthb-buttons">
+            <a href="javascript:void(0)" class="wthb-button wthb-yes" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Document Helpful&#39;, &#39;Click&#39;, &#39;Document Was Helpful&#39;,1); hideWasThisHelpful()">
+                <span class="sr-only">Yes</span>
+                <i aria-hidden="true" class="fas fa-thumbs-up"></i>
+            </a>
+            <a href="javascript:void(0)" class="wthb-button wthb-no" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Document Helpful&#39;, &#39;Click&#39;, &#39;Document Was Not Helpful&#39;, -1); showFeedbackSection()">
+                <span class="sr-only">No</span>
+                <i aria-hidden="true" class="fas fa-thumbs-down"></i>
+            </a>
+        </div>
+    </div>
+    <div id="giveFeedbackSection" class="collapse wth-feedback-section">
+        <p class="wthb-description">Would you like to provide more feedback on this document?</p>
+        <a href="https://go.cpanel.net/docsfeedback" target="docsfeedbac    k" class="btn btn-link wthb-feedback-link" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Document Helpful&#39;, &#39;Click&#39;, &#39;Feedback Link Clicked&#39;);">
+            Provide Feedback
+            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+        </a>
+    </div>
+    
+    
+    <script src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/wasThisHelpful.min.js.download"></script>   
+</div></aside>
+            </div>
+            <div class="d-xs-block d-md-none col-md-3">
+                <aside class="side-nav sticky">
+                    <a class="link" data-toggle="collapse" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#table-of-contents-toggle" role="button" aria-expanded="false" aria-controls="table-of-contents-toggle">
+                        <h4 class="mt-1">Table of Contents</h4>
+                    </a>
+                    <div class="collapse" id="table-of-contents-toggle">
+
+
+
+
+
+<div class="table-of-contents-wrapper">
+    <ul class="toc-list">
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#overview">
+                        <li>Overview</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#how-apache-handles-php">
+                        <li>How Apache handles PHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#php-versions">
+                        <li>PHP versions</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#multiphp">
+                        <li>MultiPHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#vendor-provided-php-versions">
+                        <li>Vendor-provided PHP versions</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#modify-php">
+                        <li>Modify PHP</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="smaller-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#adjust-configuration-files">
+                        <li>Adjust configuration files</li>
+                    </a>
+                    <hr>
+                
+            
+        
+            
+
+                
+                
+                
+                
+		
+                
+                
+                    <a class="bigger-TOC" href="https://docs.cpanel.net/ea4/php/introduction-to-php/#php-security">
+                        <li>PHP Security</li>
+                    </a>
+                    <hr>
+                
+            
+        
+        
+    </ul>
+</div>
+</div>
+                </aside>
+            </div>
+            <div class="col-md-9">
+                <div class="flex-column flex-md-row article-header">
+                    
+                        <h2 class="article-title">Introduction to PHP</h2>
+                    
+                </div>
+                <hr>
+                <p>Last modified: <em>September 9, 2020</em></p>
+                
+
+<h2 id="overview">Overview</h2>
+
+<p>Websites frequently use the PHP scripting language for applications and content. EasyApache allows you to easily install and modify PHP for your server.</p>
+
+<p>When you install cPanel &amp; WHM, the installation process automatically installs PHP with some common PHP options.</p>
+
+<p>For more information about PHP, read the <a href="https://www.php.net/">PHP website</a>.</p>
+
+<h3 id="how-apache-handles-php">How Apache handles PHP</h3>
+
+<p>By default, cPanel &amp; WHM configures your Apache web server to use the CGI PHP handler to handle requests that it receives for PHP content.
+
+
+
+</p><div class="callout callout-info">
+    <div class="callout-heading">Note:</div>
+    <div class="callout-content">
+        The PHP handler that you select affects the speed and security of your web server. For more information about PHP handlers, read our <a href="https://docs.cpanel.net/ea4/php/php-handlers">PHP Handlers</a> documentation.
+    </div>
+</div><p></p>
+
+<h2 id="php-versions">PHP versions</h2>
+
+<p>The cPanel default profile includes PHP versions 7.2 and 7.3.</p>
+
+<p>EasyApache 4 supports PHP versions 5.4 through 5.6 and PHP versions 7.0 through 7.4.</p>
+
+<p>cPanel &amp; WHM currently provides the beta release for PHP 8.0. EasyApache 4 supports PHP 8 on an <strong>experimental</strong> basis. You <strong>must</strong> install <a href="https://docs.cpanel.net/ea4/git-repositories/the-experimental-repository/">The Experimental Repository</a> if you want to use it. cPanel &amp; WHM currently provides the beta release for PHP 8.0. For more information, read our <a href="https://docs.cpanel.net/knowledge-base/experimental-software/php-8/">PHP 8</a> documentation.</p>
+
+<p>EasyApache 4 adheres to the <a href="https://php.net/supported-versions.php">php.net supported versions timeline</a>. The profiles that we supply in WHM’s <a href="https://docs.cpanel.net/whm/software/easyapache-4-interface"><em>EasyApache 4</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; EasyApache 4</em>) <strong>only</strong> provide PHP versions that <a href="https://www.php.net/">php.net</a> currently supports.</p>
+
+<p>RPMs for unsupported versions of PHP will remain on the cPanel L.L.C. mirrors and servers, but we will <strong>not</strong> provide any further updates.</p>
+
+<p>When the PHP development team makes a new version of PHP available, we test and then make the new version available in EasyApache.</p>
+
+<p>Minor version number changes do not impact functionality, but major updates may require changes to your configuration. In many cases, the EasyApache software will make the necessary adjustments automatically. Custom configurations may require further manual adjustments.</p>
+
+<p>For more information on PHP versions and extensions available in EasyApache 4, read our <a href="https://docs.cpanel.net/ea4/php/php-options">PHP Options</a> documentation.</p>
+
+<h2 id="multiphp">MultiPHP</h2>
+
+<p>EasyApache 4 supports multiple versions of PHP.</p>
+
+<p>To change your server’s default version of PHP or a virtual host’s version of PHP, use WHM’s <a href="https://docs.cpanel.net/whm/software/multiphp-manager-for-whm"><em>MultiPHP Manager</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; MultiPHP Manager</em>).</p>
+
+<p>If the version of PHP that you wish to use does not exist on your server, you can install it with the <a href="https://docs.cpanel.net/whm/software/easyapache-4-interface"><em>EasyApache 4</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; EasyApache 4</em>). To install your PHP version with yum, read our <a href="https://docs.cpanel.net/ea4/php/how-to-locate-and-install-a-php-version-or-extension">How to Locate and Install a PHP Version or Extension</a> documentation.</p>
+
+<h3 id="vendor-provided-php-versions">Vendor-provided PHP versions</h3>
+
+<p>In cPanel &amp; WHM version 66 and later, EasyApache 4 allows you to use PHP versions that cPanel, L.L.C. does <strong>not</strong> provide. These PHP versions <strong>must</strong> be a Software Collection Library (SCL) package and <strong>cannot</strong> start with the <code>ea-</code> prefix that EasyApache 4 uses.</p>
+
+<ul>
+<li>You <strong>cannot</strong> use the  <a href="https://docs.cpanel.net/whm/software/easyapache-4-interface"><em>EasyApache 4</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; EasyApache 4</em>) to install vendor-provided versions of PHP. You <strong>must</strong> use yum to install these packages on your system. For more information, read our <a href="https://docs.cpanel.net/ea4/basics/yellowdog-updater-modified-yum-basics">Yellowdog Updater, Modified (yum) Basics</a> documentation.</li>
+<li>After you install the packages, you can use WHM’s<a href="https://docs.cpanel.net/whm/software/multiphp-manager-for-whm"><em>MultiPHP Manager</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; MultiPHP Manager</em>) and WHM’s <a href="https://docs.cpanel.net/whm/software/multiphp-ini-editor"><em>MultiPHP INI Editor</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Software &gt;&gt; MultiPHP INI Editor</em>) to make changes.</li>
+</ul>
+
+
+
+
+<div class="callout callout-warning">
+    <div class="callout-heading">Important:</div>
+    <div class="callout-content">
+        <ul>
+<li>The DSO PHP handler is <strong>not</strong> available with Red Hat® Enterprise Linux® (RHEL) and CloudLinux™ PHP packages.</li>
+<li>SCL PHP packages <strong>require</strong> a vendor prefix in order to install in EasyApache 4. For example, you <strong>cannot</strong> use RHEL PHP versions 5.4 or 5.5 because these packages do <strong>not</strong> begin with a vendor prefix.</li>
+<li>Not all vendor-provided PHP packages will contain all of the files that EasyApache 4’s MultiPHP system requires. You may experience additional limitations.</li>
+</ul>
+
+    </div>
+</div>
+
+<h4 id="potential-issues">Potential issues</h4>
+
+<p>Some potential issues exist in vendor-provided versions of PHP.</p>
+
+<h5 id="vendor-provided-php-ini-does-not-exist">Vendor-provided php.ini does not exist</h5>
+
+<p>In some cases, a vendor-provided PHP version’s <code>php.ini</code> file will <strong>not</strong> exist in the directory that cPanel &amp; WHM requires. For example, RHEL’s PHP 5.6 <code>.ini</code> file exists in the <code>/opt/rh/rh-php56/register.content/etc/opt/rh/rh-php56</code> directory, but cPanel &amp; WHM expects it in the <code>/opt/rh/rh-php56/root/etc</code> directory. You <strong>must</strong> create a symlink in order for the MultiPHP system to read the <code>php.ini</code> file.</p>
+
+<p>To create the symlink, use the following command, where <code>php56</code> represents the PHP version that you wish to use:
+</p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class=" language-bash"><code class=" language-bash" data-lang="bash"><span class="token function">ln</span> -s /opt/rh/rh-php56/register.content/etc/opt/rh/rh-php56 /opt/rh/rh-php56/root/etc</code></pre></div><p></p>
+
+<p>If you installed the PHP version <strong>before</strong> you created the symlink, you <strong>must</strong> reinstall the PHP version with the following command, where <code>php56</code> represents the PHP version that you wish to use:
+</p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class=" language-bash"><code class=" language-bash" data-lang="bash">yum reinstall rh-php56*</code></pre></div><p></p>
+
+<h5 id="php-cli-and-php-cgi-binaries-in-different-locations">PHP CLI and PHP CGI binaries in different locations</h5>
+
+<p>Some PHP versions include the PHP CLI and PHP CLI binaries in different locations than <a href="https://docs.cpanel.net/ea4/php/easyapache4-and-the-ea-php-cli-package">cPanel &amp; WHM’s implementation</a>. In these cases, the PHP installation reverses the location of these binaries. If your PHP version does this, then the following issues may occur:</p>
+
+<ul>
+<li>The <code>php-cgi</code> binary path will <strong>not</strong> exist.</li>
+<li>The <code>php-cli</code> binary path will be incorrect.</li>
+</ul>
+
+<p>To fix this issue, use the following commands, where <code>prefix</code> represents the vendor prefix and <code>package</code> represents the package name:
+</p><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tbody><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class=" language-bash"><code class=" language-bash" data-lang="bash">1
+2
+</code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4" class=" language-bash"><code class=" language-bash" data-lang="bash"><span class="token function">mv</span> /opt/prefix/package/root/usr/bin/php /opt/prefix/package/root/usr/bin/php-cgi
+<span class="token function">mv</span> /opt/prefix/package/root/usr/bin/php-cli /opt/prefix/package/root/usr/bin/php</code></pre></td></tr></tbody></table>
+</div>
+</div><p></p>
+
+<h2 id="modify-php">Modify PHP</h2>
+
+<p>You can use several methods to modify your PHP configuration. For more information, read the following documentation:</p>
+
+<ul>
+<li><a href="https://docs.cpanel.net/ea4/php/php-options">PHP Options</a> — A list of the available options in EasyApache that directly modify PHP.</li>
+<li><a href="https://docs.cpanel.net/ea4/php/php-handlers">PHP Handlers</a> — The PHP handler that you select determines how Apache handles requests for PHP content.</li>
+</ul>
+
+<p>To more easily allow you to call the PHP binaries directly, we provide the following symlinks for each version of PHP installed on your system:</p>
+
+<ul>
+<li>PHP CLI — <code>/usr/local/bin/ea-php##</code>, where <code>##</code> represents the two-digit PHP version.</li>
+<li>PHP CGI — <code>/usr/bin/ea-php##</code> command, where <code>##</code> represents the two-digit PHP version.</li>
+</ul>
+
+<p>To more easily allow you to install PECL and PEAR extensions, we provide the following symlinks:</p>
+
+<ul>
+<li>PECL — <code>/usr/bin/ea-php##-pecl</code>, where <code>##</code> represents the two-digit PHP version.</li>
+<li>PEAR — <code>/usr/bin/ea-php##-pear</code>, where <code>##</code> represents the two-digit PHP version.</li>
+</ul>
+
+<h3 id="adjust-configuration-files">Adjust configuration files</h3>
+
+<p>To further customize your PHP configuration, you can edit your <code>.ini</code> files. We <strong>strongly</strong> recommend that you <strong>only</strong> edit your configuration files with cPanel’s <a href="https://docs.cpanel.net/cpanel/software/multiphp-ini-editor-for-cpanel"><em>MultiPHP INI Editor</em></a> interface (<em>cPanel &gt;&gt; Home &gt;&gt; Software &gt;&gt; MultiPHP INI Editor</em>). To edit your files manually, adjust the following Apache handler files in your document root:</p>
+
+<ul>
+<li>DSO -- <code>.htaccess</code></li>
+<li>suPHP -- <code>.user.ini</code>
+
+
+
+<div class="callout callout-info">
+    <div class="callout-heading">Note:</div>
+    <div class="callout-content">
+        If you enabled the <code>suPHP_ConfigPath</code> directive in your <code>.htaccess</code> file, read our <a href="https://docs.cpanel.net/ea4/php/the-cpanel-phprc-php-patch-for-easyapache4">The cPanel PHPRC PHP Patch for EasyApache 4</a> documentation.
+    </div>
+</div></li>
+<li>CGI -- <code>php.ini</code></li>
+</ul>
+
+<h2 id="php-security">PHP Security</h2>
+
+<p>To ensure that your PHP version stays up to date, use one of the following options:</p>
+
+<ul>
+<li>Set the <em>Operating System Package Updates</em> section of WHM’s <a href="https://docs.cpanel.net/whm/server-configuration/update-preferences"><em>Update Preferences</em></a> interface (<em>WHM &gt;&gt; Home &gt;&gt; Server Configuration &gt;&gt; Update Preferences</em>) to <em>Automatic</em>.</li>
+<li>As a <code>root</code>-enabled user, run <code>yum update</code> on the command line.</li>
+<li>Install the CentOS-provided <a href="http://man7.org/linux/man-pages/man8/yum-cron.8.html"><code>yum-cron</code></a> package with the following command: <code>yum install yum-cron</code>.</li>
+</ul>
+
+<p>For more information about PHP security, read the following documentation:</p>
+
+<ul>
+<li><a href="https://docs.cpanel.net/knowledge-base/security/php-security-concepts/">PHP Security Concepts</a></li>
+<li><a href="https://docs.cpanel.net/knowledge-base/security/how-to-edit-your-php-ini-file/">How to Edit Your php.ini File</a></li>
+</ul>
+
+            </div>
+        </div>
+        
+            
+
+
+<section class="mt-5">
+    <h4>Additional Documentation</h4>
+    <hr>
+    <div class="additional-documentation">
+        <ul>
+            
+                <li>
+                    <a href="https://docs.cpanel.net/knowledge-base/security/how-to-edit-your-php-ini-file/">How to Edit Your php.ini File</a>
+                </li>
+            
+                <li>
+                    <a href="https://docs.cpanel.net/whm/software/multiphp-ini-editor/">MultiPHP INI Editor for WHM</a>
+                </li>
+            
+                <li>
+                    <a href="https://docs.cpanel.net/cpanel/software/multiphp-manager-for-cpanel/">MultiPHP Manager for cPanel</a>
+                </li>
+            
+                <li>
+                    <a href="https://docs.cpanel.net/knowledge-base/security/php-security-concepts/">PHP Security Concepts</a>
+                </li>
+            
+                <li>
+                    <a href="https://docs.cpanel.net/whm/scripts/the-clean_user_php_sessions-script/">The clean_user_php_sessions Script</a>
+                </li>
+               
+        </ul>
+    </div>
+</section>
+        
+    </div>
+
+        </div> 
+<footer class="text-center mt-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                <a href="https://cpanel.com/" title="cPanel, L.L.C." class="center-block cPanel-logo">
+                    
+                    
+                    <img src="./Introduction to PHP _ cPanel &amp; WHM Documentation_files/cpanel-logo.min.svg" title="cPanel, L.L.C.">
+                </a>
+            </div>
+            <div class="col-md-11 legal">
+                <p class="small">
+                    © 2020 All Rights Reserved / <a href="https://cpanel.com/legal-notices.html" title="Legal Notices">Legal Notices</a> / <a href="https://cpanel.com/privacy-policy.html" title="Privacy Policy">Privacy Policy</a> / <a href="https://cpanel.com/transparency-report.html" title="Transparency Report">Transparency Report</a>
+                </p>
+              </div>
+        </div>
+    </div>
+
+    <div class="container-fluid trademark">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <small>cPanel, WebHost Manager and WHM are registered trademarks of cPanel, L.L.C. for providing its computer software that facilitates the management and configuration of Internet web servers.</small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body></html>
