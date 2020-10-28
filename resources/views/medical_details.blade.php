@@ -89,7 +89,7 @@
 
                 <div class="form-group">
                   <label>Hospital Address</label>
-                 <textarea value="{{$medical_slip->hospital_address}}" disabled name="hospital_address" class="form-control">{{$medical_slip->station_code}}</textarea>
+                 <textarea value="{{$medical_slip->hospital_address}}" disabled name="hospital_address" class="form-control">{{$medical_slip->hospital_address}}</textarea>
                   <!-- /.input group -->
                 </div>
 

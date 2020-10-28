@@ -25,7 +25,7 @@
 
 <body style="
   background-color: #212529;   
-  background: url('/searches/img/slider-1-1-1.jpg'); 
+  background: url('/searches/img/police.jpeg'); 
   no-repeat center center;
   background-size: cover;
 ">
@@ -64,17 +64,7 @@
     </form>
   </div>
 </nav>
-  <!-- <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="nav-brand" href="{{url('/')}}">CRAPP</a>
-      <a class="nav-link" href="{{url('court-case')}}">Court Cases</a>
-      <a class="nav-link" href="{{url('prison-case')}}">Prison Cases</a>
-      <a class="btn btn-primary" href="{{url('login')}}">Sign In</a>
-      <a class="btn btn-primary" href="{{url('login')}}">Sign In</a>
-    </div>
-  </nav> -->
-
-  
+   
   @yield('content')
   <!-- Footer -->
    
