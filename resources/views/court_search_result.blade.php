@@ -23,7 +23,7 @@
   </header>  -->
   <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 pt-5">
+        <div class="col-md-10 pt-5">
             <div class="card">
                
                 <div class="card-header" style="background-color: #A1E84F;"><h2 class="text-center"></h2></div>
@@ -39,19 +39,25 @@
                                      
                                      <table class="table table-condensed">
                                      
-                                 <thead>
+                                     <thead>
                                     
-                                 <tr style="background-color: #33E899;">
-                                  <th><b>Name</b><b class="float-right">Date</b></th>
-                                  
-                                 </tr>
-                                 </thead>
-                                 <tbody>
-                                 @foreach($records as $record)
-                                     <tr>
-                                         <td>{{$record->defendant_name}}  <i class="float-right"><b>{{ \Carbon\Carbon::parse($record->created_at)->format('d/m/Y')}}</b></i></td>                                           
-                                            
-                                     </tr>
+                                    <tr style="background-color: #33E899;">
+                                     <th><b>Name</b></th>
+                                     <th><b>Court Name</b></th>
+                                     <th><b>Offence Commited</b></th>
+                                    <th> <b>Court Judgement</b></th>
+                                     
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($records as $record)
+                                        <tr>
+                                            <td>{{$record->defendant_name}}</td> 
+                                            <td>{{$record->court_name}}</td>
+                                            <td>{{$record->offence_nature}}</td>
+                                            <td>{{$record->final_charge}}</td>
+                                                
+                                        </tr>
                                      @endforeach
                                  </tbody>
                                  

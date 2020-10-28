@@ -23,7 +23,7 @@
   </header>  -->
   <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 pt-5">
+        <div class="col-md-10 pt-5">
             <div class="card">
                
                 <div class="card-header" style="background-color: #A1E84F;"><h2 class="text-center"></h2></div>
@@ -42,14 +42,20 @@
                                  <thead>
                                     
                                  <tr style="background-color: #33E899;">
-                                  <th><b>Name</b><b class="float-right">Date</b></th>
+                                  <th><b>Name</b></th>
+                                  <th><b>Police Formation</b></th>
+                                  <th><b>Offence Commited</b></th>
+                                 <th> <b>Date Arrested</b></th>
                                   
                                  </tr>
                                  </thead>
                                  <tbody>
                                  @foreach($records as $record)
                                      <tr>
-                                         <td>{{$record->suspect_name}}  <i class="float-right"><b>{{ \Carbon\Carbon::parse($record->created_at)->format('d/m/Y')}}</b></i></td>                                           
+                                         <td>{{$record->suspect_name}}</td> 
+                                         <td>{{$record->police_formation}}</td>
+                                         <td>{{$record->nature_of_offence}}</td>
+                                         <td> <i><b>{{ \Carbon\Carbon::parse($record->date_of_arrest)->format('d/m/Y')}}</b></i></td>                                           
                                             
                                      </tr>
                                      @endforeach

@@ -23,7 +23,7 @@
   </header>  -->
   <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 pt-5">
+        <div class="col-md-10 pt-5">
             <div class="card">
                
                 <div class="card-header" style="background-color: #A1E84F;"><h2 class="text-center"></h2></div>
@@ -41,16 +41,27 @@
                                      
                                  <thead>
                                     
+                                    
                                  <tr style="background-color: #33E899;">
-                                  <th><b>Name</b><b class="float-right">Date</b></th>
+                                  <th><b>Name</b></th>
+                                  <th><b>Arraignment Date</b></th>
+                                  <th><b>Offence Commited</b></th>
+                                  <th> <b>Court Name</b></th>
+                                  <th> <b>Prison Charged</b></th>
+                                  <th> <b>Conviction Period</b></th>
                                   
                                  </tr>
                                  </thead>
                                  <tbody>
                                  @foreach($records as $record)
                                      <tr>
-                                         <td>{{$record->accused_name}}  <i class="float-right"><b>{{ \Carbon\Carbon::parse($record->created_at)->format('d/m/Y')}}</b></i></td>                                           
-                                            
+                                         <td>{{$record->accused_name}}</td> 
+                                         <td>{{$record->arraignment_date}}</td>
+                                         <td>{{$record->offence_nature}}</td>
+                                         <td>{{$record->court_name}}</td>
+                                         <td>{{$record->prison_charge}}</td>
+                                         <td>{{$record->conviction_period}}</td>
+                                             
                                      </tr>
                                      @endforeach
                                  </tbody>
